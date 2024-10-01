@@ -26,8 +26,6 @@ varApt=(
     scrcpy
     sqlitebrowser
     sqlite3
-    syncthing
-    syncthing-gtk
     steghide
     tty-clock
     veracrypt
@@ -41,7 +39,6 @@ varFlatpak=(
     com.getpostman.Postman
     io.gitlab.librewolf-community
     md.obsidian.Obsidian
-    net.cozic.joplin_desktop
     net.opentabletdriver.OpenTabletDriver
     org.apache.netbeans    
 )
