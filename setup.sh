@@ -6,6 +6,7 @@ varApt=(
     cowsay
     cmatrix
     figlet
+    gimp
     git
     gparted
     gsmartcontrol
@@ -14,6 +15,7 @@ varApt=(
     iftop
     keepassxc
     kitty
+    krita
     nmap
     obs-studio 
     openjdk-21-jdk
