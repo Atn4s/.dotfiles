@@ -6,6 +6,8 @@ git clone https://github.com/i-mint/midnight.git
 
 cd $HOME/.dotfiles/Catppuccin-GTK-Theme/themes &&  bash install.sh
 rm -rf $HOME/.dotfiles/Catppuccin-GTK-Theme
+cd $HOME/.dotfiles/Gruvbox-GTK-Theme/themes &&  bash install.sh
+rm -rf $HOME/.dotfiles/Gruvbox-GTK-Theme
 cd $HOME/.dotfiles/Everforest-GTK-Theme/themes &&  bash install.sh
 rm -rf $HOME/.dotfiles/Everforest-GTK-Theme
 cd $HOME/.dotfiles/Tokyonight-GTK-Theme/themes &&  bash install.sh

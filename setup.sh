@@ -19,6 +19,7 @@ varApt=(
     nmap
     obs-studio 
     openjdk-21-jdk
+    piper
     python3-pip
     python3-venv
     ranger
@@ -37,10 +38,12 @@ varApt=(
 
 varFlatpak=(
     com.getpostman.Postman
+    com.spotify.Client
     io.gitlab.librewolf-community
     md.obsidian.Obsidian
     net.opentabletdriver.OpenTabletDriver
     org.apache.netbeans    
+    org.localsend.localsend_app
 )
 
 varPPAs=(
