@@ -5,6 +5,7 @@ varApt=(
     cava
     cowsay
     cmatrix
+    extrepo
     figlet
     gimp
     git
@@ -39,11 +40,8 @@ varApt=(
 varFlatpak=(
     com.getpostman.Postman
     com.spotify.Client
-    io.gitlab.librewolf-community
-    md.obsidian.Obsidian
     net.opentabletdriver.OpenTabletDriver
     org.apache.netbeans    
-    org.localsend.localsend_app
 )
 
 varPPAs=(
@@ -51,22 +49,27 @@ varPPAs=(
     "ppa:unit193/encryption"
 )
 
+enable_librewolf(){
+    sudo extrepo update
+    sudo extrepo enable librewolf
+    sudo apt update && sudo apt install librewolf
+}
+
+AppImages(){
+    echo "Remember to Download these AppImages:"
+    echo "Joplin"
+    echo "LocalSend"
+    echo "Obsidian"
+}
+
 clear
 
-echo "   ___  _           ___             "
-echo "  / _ \| |         /   |            "
-echo " / /_\ \ |_ _ __  / /| |___         "
-echo " |  _  | __| '_ \/ /_| / __|        "
-echo " | | | | |_| | | \___  \__ \        "
-echo " \_| |_/\__|_| |_|   |_/___/        "
-echo "                                    "
-echo " ______      _    __ _ _            "
-echo " |  _  \    | |  / _(_) |           "
-echo " | | | |___ | |_| |_ _| | ___  ___  "
-echo " | | | / _ \| __|  _| | |/ _ \/ __| "
-echo " | |/ / (_) | |_| | | | |  __/\__ \ "
-echo " |___/ \___/ \__|_| |_|_|\___||___/ "
-echo "                                    "
+echo "    ___   __        __ __         ____        __  _____ __         "
+echo "   /   | / /_____  / // / _____  / __ \____  / /_/ __(_) /__  _____"
+echo "  / /| |/ __/ __ \/ // /_/ ___/ / / / / __ \/ __/ /_/ / / _ \/ ___/"
+echo " / ___ / /_/ / / /__  __(__  ) / /_/ / /_/ / /_/ __/ / /  __(__  ) "
+echo "/_/  |_\__/_/ /_/  /_/ /____(_)_____/\____/\__/_/ /_/_/\___/____/  "
+echo -e                                                                   
                                                                                           
 echo -e
 echo "> Adding PPA's to the system"
@@ -82,6 +85,7 @@ sudo apt update && sudo apt upgrade && flatpak upgrade
 echo -e
 echo "> Installing Apt programs"
 sudo apt install "${varApt[@]}"
+enable_librewolf
 
 echo -e
 echo "> Installing Flatpak programs"
@@ -95,5 +99,6 @@ git clone https://github.com/Atn4s/NoSpyCam.git
 mv .bash_aliases $HOME
 echo "> .bash_aliases added"
 
+AppImages
+echo -e
 echo "[ Your Distro is ready to go! ]"
-
