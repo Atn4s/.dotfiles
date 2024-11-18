@@ -61,5 +61,8 @@ git clone https://github.com/Atn4s/NoSpyCam.git
 mv .bash_aliases $HOME
 echo -e "> .bash_aliases added"
 
+cp -r .config/ ~/
+echo -e "> .config files are now added to the system"
+
 AppImages
 echo -e "[ Your Distro is ready to go! ]"
