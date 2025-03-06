@@ -64,6 +64,8 @@ git clone https://github.com/Atn4s/Daemon-HubUSB.C.git
 mv .bash_aliases $HOME
 echo -e "> .bash_aliases added"
 
+mv .config/ranger $HOME/.config
+
 cp -r .config/ ~/
 echo -e "> .config files are now added to the system"
 
