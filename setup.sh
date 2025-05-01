@@ -75,7 +75,7 @@ setup_pywal(){
     echo -e "\e[1;32m> Configurando PyWal...\e[0m"
     python3 -m venv $HOME/wal_venv/
     source $HOME/wal_venv/bin/activate
-    pip install pywal
+    pip install pywal16 colorz
     deactivate
 }
                                  
