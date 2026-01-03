@@ -17,7 +17,7 @@ BASHRC="$HOME/.bashrc"
 
 APT_PACKAGES=(
     adb brasero cava cowsay cmatrix extrepo fastfetch figlet gddrescue gimp git gparted gsmartcontrol 
-    guvcview htop iftop keepassxc kitty krita neovim nmap obs-studio openjdk-21-jdk 
+    guvcview htop iftop keepassxc kitty krita neovim nmap obs-studio openjdk-25-jdk 
     piper python3-pip python3-venv ranger rkhunter scrcpy sqlitebrowser sqlite3 
     steghide syncthing syncthing-gtk tmux tty-clock veracrypt vrms vlc whois xournalpp
 )
