@@ -1,33 +1,42 @@
 #!/bin/bash
 
+# Dotfiles - Script de pós-instalação
+# Autor: João Paulo
+# Objetivo: Setup pessoal (Ubuntu-based)
+
 # Definição do pipefail para capturar erros.
 set -euo pipefail
 
-# ----------------- CONFIGURAÇÕES -----------------
+# ==================================================
+# CONFIGURAÇÕES
+# ==================================================
 
-# Pacotes APT
-varApt=(
+PROJECTS_DIR="$HOME/Projects"
+WAL_VENV="$HOME/wal_venv"
+BASHRC="$HOME/.bashrc"
+
+APT_PACKAGES=(
     adb brasero cava cowsay cmatrix extrepo fastfetch figlet gddrescue gimp git gparted gsmartcontrol 
     guvcview htop iftop keepassxc kitty krita neovim nmap obs-studio openjdk-21-jdk 
     piper python3-pip python3-venv ranger rkhunter scrcpy sqlitebrowser sqlite3 
     steghide syncthing syncthing-gtk tmux tty-clock veracrypt vrms vlc whois xournalpp
 )
 
-# Pacotes Flatpak
-varFlatpak=(
+FLATPAK_PACKAGES=(
     com.github.wwmm.easyeffects com.jetbrains.IntelliJ-IDEA-Ultimate net.cozic.joplin_desktop
     net.opentabletdriver.OpenTabletDriver 
 )
 
-# PPAs
-varPPAs=(
+PPAS=(
     "ppa:obsproject/obs-studio"
     "ppa:phoerious/keepassxc"
     "ppa:unit193/encryption"
     "ppa:zhangsongcui3371/fastfetch"
 )
 
-#------------ FUNÇÕES AUXILIARES ------------
+# ==================================================
+# Funções Auxiliares
+# ==================================================
 msg() {
     echo -e "\e[1;32m> $1\e[0m"
 }
@@ -36,7 +45,9 @@ warn() {
     echo -e "\e[1;33m⚠ $1\e[0m"
 }
 
-# ----------------- FUNÇÕES -----------------
+# ==================================================
+# Funções
+# ==================================================
 header(){
     clear
     echo -e "\e[1;34m"
@@ -53,8 +64,9 @@ EOF
 # Adiciona os PPAs
 add_ppas(){
     msg "Adicionando PPAs"
-    for ppa in "${varPPAs[@]}"; do    
-        sudo add-apt-repository -y "$ppa" && echo "✔ PPA $ppa adicionada com sucesso!"
+    for ppa in "${PPAS[@]}"; do    
+        sudo add-apt-repository -y "$ppa" 
+        msg "PPA $ppa configurada"
     done
 }
 
@@ -69,7 +81,7 @@ update_system(){
 #Instalação de pacotes APT
 install_apt_packages(){
     msg "Instalando pacotes APT"
-    sudo apt install -y "${varApt[@]}"    
+    sudo apt install -y "${APT_PACKAGES[@]}"    
 }
 
 # Habilitando repositório extrepo
@@ -85,13 +97,13 @@ install_flatpak_packages(){
     msg "Configurando Flatpak"
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    
     msg "Instalando pacotes Flatpak"
-    flatpak install -y flathub "${varFlatpak[@]}"
+    flatpak install -y flathub "${FLATPAK_PACKAGES[@]}"
 }
 
 setup_pywal(){
     msg "Configurando PyWal"
-    python3 -m venv "$HOME/wal_venv"    
-    source "$HOME/wal_venv/bin/activate"
+    python3 -m venv "$WAL_VENV"
+    source "$WAL_VENV/bin/activate"
     pip install --upgrade pip
     pip install pywal16 colorz
     deactivate
@@ -100,16 +112,14 @@ setup_pywal(){
 lunarvim_install(){
     msg "Instalando LunarVim"
     LV_BRANCH='release-1.4/neovim-0.9' bash <(
-        curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh
+        curl -fsSL https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh
     )     
 }
 
 bash_modification() {
     msg "Aplicando configurações no .bashrc"
 
-    BASHRC="$HOME/.bashrc"
-
-    {
+    grep -q "---- LunarVim ----" "$BASHRC" || {
         echo ""
         echo "# ---- PyWal ----"
         echo '[[ -f "$HOME/.cache/wal/sequences" ]] && cat "$HOME/.cache/wal/sequences"'
@@ -124,24 +134,28 @@ bash_modification() {
         echo '[[ ":$PATH:" != *":$HOME/.local/bin:"* ]] && export PATH="$HOME/.local/bin:$PATH"'
     } >> "$BASHRC"
 
-    echo "Reinicie o terminal para aplicar as alterações do bash"
+    warn "Reinicie o terminal para aplicar as alterações do bash"
 }
 
 git_clone(){
     msg "Clonando repositórios"
 
-    git clone https://github.com/Atn4s/scava.sh.git
-    git clone https://github.com/Atn4s/NoSpyCam.git
-    git clone https://github.com/Atn4s/Daemon-HubUSB.C.git
+    mkdir -p "$PROJECTS_DIR"
+    cd "$PROJECTS_DIR"
 
-    mv .bash_aliases $HOME
-    echo "✔ .bash_aliases adicionado!"
+    git clone https://github.com/Atn4s/scava.sh.git || true
+    git clone https://github.com/Atn4s/NoSpyCam.git || true
+    git clone https://github.com/Atn4s/Daemon-HubUSB.C.git || true
 
-    cp -r .config/* $HOME/.config/
-    echo "✔ Arquivos de configuração adicionados!"
+    [[ -f .bash_aliases ]] && mv .bash_aliases "$HOME"
+    [[ -d .config ]] && cp -r .config/* "$HOME/.config/"
+
+    msg "Repositórios clonados em $PROJECTS_DIR"
 }
 
-# ----------------- EXECUÇÃO -----------------
+# ==================================================
+# EXECUÇÃO
+# ==================================================
 header
 add_ppas
 update_system
