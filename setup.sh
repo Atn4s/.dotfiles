@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Dotfiles - Script de pós-instalação
-# Autor: João Paulo
+# Autor: Atn4s
 # Objetivo: Setup pessoal (Ubuntu-based)
 
 # Definição do pipefail para capturar erros.
@@ -65,8 +65,11 @@ EOF
 add_ppas(){
     msg "Adicionando PPAs"
     for ppa in "${PPAS[@]}"; do    
-        sudo add-apt-repository -y "$ppa" 
-        msg "PPA $ppa configurada"
+        grep -Rq "^deb .*${ppa#ppa:}" /etc/apt/sources.list* && {
+            warn "PPA $ppa já existe"
+            continue
+        }
+        sudo add-apt-repository -y "$ppa"
     done
 }
 
@@ -102,7 +105,7 @@ install_flatpak_packages(){
 
 setup_pywal(){
     msg "Configurando PyWal"
-    python3 -m venv "$WAL_VENV"
+    [[ -d "$WAL_VENV" ]] || python3 -m venv "$WAL_VENV"
     source "$WAL_VENV/bin/activate"
     pip install --upgrade pip
     pip install pywal16 colorz
@@ -124,11 +127,9 @@ bash_modification() {
         echo "# ---- PyWal ----"
         echo '[[ -f "$HOME/.cache/wal/sequences" ]] && cat "$HOME/.cache/wal/sequences"'
         echo '[[ -f "$HOME/.cache/wal/colors-tty.sh" ]] && source "$HOME/.cache/wal/colors-tty.sh"'
-
         echo ""
         echo "# ---- Terminal ----"
         echo 'export TERM=xterm-256color'
-
         echo ""
         echo "# ---- LunarVim ----"
         echo '[[ ":$PATH:" != *":$HOME/.local/bin:"* ]] && export PATH="$HOME/.local/bin:$PATH"'
