@@ -90,8 +90,8 @@ install_apt_packages(){
 # Habilitando repositório extrepo
 enable_extrepo(){
     msg "Habilitando extrepo"
-    sudo extrepo update
     sudo extrepo enable librewolf || true
+    sudo extrepo update librewolf
     sudo apt update 
     sudo apt install -y librewolf
 }
