@@ -11,7 +11,7 @@ set -euo pipefail
 # CONFIGURAÇÕES
 # ==================================================
 
-PROJECTS_DIR="$HOME/Projects"
+PROJECTS_DIR="PROJECTS_DIR"
 WAL_VENV="$HOME/wal_venv"
 BASHRC="$HOME/.bashrc"
 
