@@ -16,7 +16,7 @@ WAL_VENV="$HOME/wal_venv"
 BASHRC="$HOME/.bashrc"
 
 APT_PACKAGES=(
-    apt-transport-https adb brasero cava cowsay cmatrix code extrepo fastfetch figlet gddrescue gimp 
+    apt-transport-https adb brasero cava cowsay cmatrix code fastfetch figlet gddrescue gimp 
     git gparted gsmartcontrol guvcview htop iftop keepassxc kitty krita librewolf neovim nmap obs-studio 
     openjdk-25-jdk piper python3-pip python3-venv ranger rkhunter scrcpy sqlitebrowser sqlite3 
     steghide syncthing syncthing-gtk tmux tty-clock veracrypt vrms vlc whois xournalpp
@@ -89,6 +89,7 @@ install_apt_packages(){
 # Habilitando repositório extrepo
 enable_extrepo(){
     msg "Habilitando extrepo"
+    sudo apt install extrepo
     sudo extrepo enable librewolf || true
     sudo extrepo update librewolf
 }
