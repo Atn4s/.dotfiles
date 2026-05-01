@@ -11,20 +11,19 @@ set -euo pipefail
 # CONFIGURAÇÕES
 # ==================================================
 
-PROJECTS_DIR="PROJECTS_DIR"
+PROJECTS_DIR="$HOME/.dotfiles/PROJECTS_DIR"
 WAL_VENV="$HOME/wal_venv"
 BASHRC="$HOME/.bashrc"
 
 APT_PACKAGES=(
-    adb brasero cava cowsay cmatrix extrepo fastfetch figlet gddrescue gimp git gparted gsmartcontrol 
-    guvcview htop iftop keepassxc kitty krita neovim nmap obs-studio openjdk-25-jdk 
-    piper python3-pip python3-venv ranger rkhunter scrcpy sqlitebrowser sqlite3 
+    apt-transport-https adb brasero cava cowsay cmatrix code extrepo fastfetch figlet gddrescue gimp 
+    git gparted gsmartcontrol guvcview htop iftop keepassxc kitty krita librewolf neovim nmap obs-studio 
+    openjdk-25-jdk piper python3-pip python3-venv ranger rkhunter scrcpy sqlitebrowser sqlite3 
     steghide syncthing syncthing-gtk tmux tty-clock veracrypt vrms vlc whois xournalpp
 )
 
 FLATPAK_PACKAGES=(
-    com.github.wwmm.easyeffects com.jetbrains.IntelliJ-IDEA-Ultimate net.cozic.joplin_desktop
-    net.opentabletdriver.OpenTabletDriver 
+    com.github.wwmm.easyeffects com.jetbrains.IntelliJ-IDEA-Ultimate net.opentabletdriver.OpenTabletDriver 
 )
 
 PPAS=(
@@ -92,10 +91,16 @@ enable_extrepo(){
     msg "Habilitando extrepo"
     sudo extrepo enable librewolf || true
     sudo extrepo update librewolf
-    sudo apt update 
-    sudo apt install -y librewolf
 }
 
+# Instalação VSCode
+vscode(){
+msg "Adicionando chave GPG para o VSCode"
+wget -O- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/vscode.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/vscode.gpg] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
+}
+
+# Instalação pacotes Flatpak
 install_flatpak_packages(){
     msg "Configurando Flatpak"
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    
@@ -159,8 +164,9 @@ git_clone(){
 # ==================================================
 header
 add_ppas
-update_system
+vscode
 enable_extrepo
+update_system
 install_apt_packages
 install_flatpak_packages
 setup_pywal
