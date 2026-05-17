@@ -17,7 +17,7 @@ BASHRC="$HOME/.bashrc"
 
 APT_PACKAGES=(
     apt-transport-https adb brasero cava cowsay cmatrix code fastfetch figlet gddrescue gimp 
-    git gparted gsmartcontrol guvcview htop iftop keepassxc kitty krita librewolf neovim nmap obs-studio 
+    git gparted gsmartcontrol guvcview htop iftop imagemagick keepassxc kitty krita neovim nmap obs-studio 
     openjdk-25-jdk piper python3-pip python3-venv ranger rkhunter scrcpy sqlitebrowser sqlite3 
     steghide syncthing syncthing-gtk tmux tty-clock veracrypt vrms vlc whois xournalpp
 )
@@ -89,9 +89,10 @@ install_apt_packages(){
 # Habilitando repositório extrepo
 enable_extrepo(){
     msg "Habilitando extrepo"
-    sudo apt install extrepo
     sudo extrepo enable librewolf || true
     sudo extrepo update librewolf
+    sudo apt update 
+    sudo apt install -y librewolf
 }
 
 # Instalação VSCode
@@ -160,6 +161,11 @@ git_clone(){
     msg "Repositórios clonados em $PROJECTS_DIR"
 }
 
+movefiles(){
+    mv .bash_aliases $HOME
+    cp -r .config/ $HOME
+}
+
 # ==================================================
 # EXECUÇÃO
 # ==================================================
@@ -173,6 +179,7 @@ install_flatpak_packages
 setup_pywal
 lunarvim_install
 bash_modification
-git_clone                   
+git_clone           
+movefiles
   
 msg "Sistema pronto para uso"
